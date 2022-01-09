@@ -69,4 +69,11 @@ def update_si_to_dn(doc, action):
 				if not is_return:
 					return_dn = frappe.db.get_value("Delivery Note",{"return_against":row.delivery_note,"is_return":1})
 					if not return_dn:
-						frappe.throw(f"Unable to proceed bacause linked delivery note {row.delivery_note} have no return delivery note")
+						frappe.throw(f"Unable to proceed because linked delivery note {row.delivery_note} have no return delivery note")
+					else:
+						return_dn = frappe.db.get_value("Delivery Note",{"return_against":row.delivery_note,"is_return":1})
+						return_dn_doc = frappe.get_doc('Delivery Note', return_dn)
+						for row1 in return_dn_doc.items:
+							if row1.item_code == row.item_code:
+								if not row.qty == row1.qty:
+									frappe.throw(f"Seems row no {row.idx} {row.item_code}'s quantity mismatched with the returned delivery note quantity")
