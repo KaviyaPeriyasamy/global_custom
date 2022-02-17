@@ -58,3 +58,11 @@ def update_po(doc, action):
 				new_uoms.append(uom['uom'])
 			if row.uom not in new_uoms:
 				frappe.throw((f"UOM {row.uom} is invalid for the item {row.item_code} in the row {row.idx}"))
+
+
+def validate_po_costcenter(doc, action):
+    for row in doc.items:
+		if row.cost_center:
+			cost_center_company = frappe.db.get_value('Cost Center', row.cost_center, 'company')
+			if not cost_center_company == doc.company:
+                frappe.throw((f"Kindly give {doc.company}'s cost center in the row {row.idx}"))

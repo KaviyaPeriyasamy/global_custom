@@ -104,7 +104,8 @@ doc_events = {
 		"validate":"global_custom.custom.python.purchase_invoice.update_pr_to_pi"
 	},
 	"Purchase Order": {
-		"validate":"global_custom.custom.python.purchase_order.update_po"
+		"validate":["global_custom.custom.python.purchase_order.update_po",
+					"global_custom.custom.python.purchase_order.validate_po_costcenter"]
 	},
 	"Delivery Note": {
 		"validate":"global_custom.custom.python.delivery_note.update_dn"
